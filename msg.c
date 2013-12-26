@@ -321,7 +321,6 @@ static int check_hash(const char *remote_host, const char *auth_user,
 		      const char *data_str, const char **reason_out)
 {
 	unsigned char hash[SHA256_DIGEST_LENGTH], hash1[SHA256_DIGEST_LENGTH];
-	uint32_t *hash32 = (uint32_t *) hash;
 	unsigned char data[128];
 	uint32_t *data32 = (uint32_t *) data;
 	bool rc, better_hash = false;
@@ -350,10 +349,6 @@ static int check_hash(const char *remote_host, const char *auth_user,
 	    SHA256(hash1, SHA256_DIGEST_LENGTH, hash);
     }
 
-	if (hash32[7] != 0) {
-		*reason_out = "H-not-zero";
-		return 0;		/* work is invalid */
-	}
 	if (hash[27] == 0)
 		better_hash = true;
 
